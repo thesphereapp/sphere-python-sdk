@@ -2,8 +2,10 @@ import decimal
 from decimal import Decimal
 from unittest import TestCase
 
-from finance import Currency
-from finance import money_sum, Money, money_divide, money_multiply
+from finance.currency import Currency
+
+from finance.money import money_sum, Money, money_multiply, money_divide
+
 from item.order_quantity_unit import OrderQuantityUnit
 
 
