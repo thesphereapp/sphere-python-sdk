@@ -1,7 +1,6 @@
 from bson import ObjectId
 from pydantic import BaseModel
-
-from finance.currency import Currency
+from sphere.finance.currency import Currency
 
 
 class CartMetadata(BaseModel):
