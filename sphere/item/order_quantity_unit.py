@@ -1,8 +1,7 @@
 from decimal import Decimal
 
 from pydantic import BaseModel, Field
-
-from item.measurement_unit import MeasurementUnit
+from sphere.item.measurement_unit import MeasurementUnit
 
 
 class OrderQuantityUnit(BaseModel):

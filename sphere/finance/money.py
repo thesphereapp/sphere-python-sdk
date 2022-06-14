@@ -2,9 +2,9 @@ from decimal import Decimal
 from typing import List, Dict
 
 from pydantic import BaseModel, Field
+from sphere.item.order_quantity_unit import OrderQuantityUnit
 
-from finance.currency import Currency
-from item.order_quantity_unit import OrderQuantityUnit
+from sphere.finance.currency import Currency
 
 
 class Money(BaseModel):

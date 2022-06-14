@@ -1,6 +1,5 @@
 from pydantic import Field, BaseModel
-
-from finance.money import Money
+from sphere.finance.money import Money
 
 
 class OrderLineItemAppliedDiscount(BaseModel):

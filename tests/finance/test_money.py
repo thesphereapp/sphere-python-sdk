@@ -2,11 +2,11 @@ import decimal
 from decimal import Decimal
 from unittest import TestCase
 
-from finance.currency import Currency
+from sphere.finance.currency import Currency
 
-from finance.money import money_sum, Money, money_multiply, money_divide
+from sphere.item.order_quantity_unit import OrderQuantityUnit
 
-from item.order_quantity_unit import OrderQuantityUnit
+from sphere.finance.money import money_sum, Money, money_multiply, money_divide
 
 
 class TestMoney(TestCase):

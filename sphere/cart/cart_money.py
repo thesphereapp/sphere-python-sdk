@@ -1,7 +1,8 @@
 from typing import Optional
 from pydantic import BaseModel
-from finance.money import Money
-from item.order_line_item import OrderLineItem
+from sphere.finance.money import Money
+
+from sphere.item.order_line_item import OrderLineItem
 
 
 class CartMoney(BaseModel):
