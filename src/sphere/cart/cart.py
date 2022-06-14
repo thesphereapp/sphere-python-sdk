@@ -4,8 +4,6 @@ from typing import Optional, List
 from bson import ObjectId
 from pydantic import Field, BaseModel
 
-from cart.cart_metadata import CartMetadata
-from cart.cart_money import CartMoney
 from finance.money import money_sum
 from item.order_line_item import OrderLineItem
 

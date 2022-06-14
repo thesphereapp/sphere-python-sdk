@@ -1,3 +1,3 @@
-# Sphere interface
+# Sphere-python-sdk
 
 Sharing common classes
