@@ -1,33 +1,40 @@
-from datetime import datetime, timezone
-from typing import Optional, List
+import unittest
+from typing import Dict
 
-from bson import ObjectId
-from pydantic import Field, BaseModel
-from sphere.finance.money import money_sum
-
-from sphere.cart.cart_money import CartMoney
-
-from sphere.item.order_line_item import OrderLineItem
-
-from sphere.cart.cart_metadata import CartMetadata
+from sphere.order.order import Order
 
 
-class Cart(BaseModel):
-    id: Optional[str] = Field(alias="_id")
-    locationId: str
-    tableNr: int
-    metaData: CartMetadata
-    createdDate: datetime = datetime.now(timezone.utc)
-    updatedDate: datetime = datetime.now(timezone.utc)
-    items: List[OrderLineItem] = []
-    money: Optional[CartMoney] = None
+class OrderTest(unittest.TestCase):
 
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = False
-        json_encoders = {ObjectId: str}
-        schema_extra = {
-            "example": {
+    def test_building_from_dict(self):
+        # given
+        my_dict = self.order_dict()
+        # when
+        resp = Order(**my_dict)
+        # then
+        self.assertEqual(resp.cart.metaData.currency.value, "GBP")
+
+    @staticmethod
+    def order_dict() -> Dict[str, any]:
+        return {
+            "_id": "123",
+            "state": "COMPLETED",
+            "stateChangeLog": [
+                {
+                    "state": "NEW",
+                    "date": "2022-03-10 07:00:00"
+                },
+                {
+                    "state": "PAYMENT_IN_PROGRESS",
+                    "date": "2022-03-10 07:02:00"
+                },
+                {
+                    "state": "PAYMENT_COMPLETED",
+                    "date": "2022-03-10 07:03:00"
+                }
+            ],
+            "cartId": "123",
+            "cart": {
                 "_id": "123",
                 "locationId": "456789",
                 "tableNr": 1,
@@ -163,64 +170,13 @@ class Cart(BaseModel):
                         "currency": "GBP"
                     },
                 }
-            }
+            },
+            "profileId": "459",
+            "participants": [
+                {
+                    "name": "James Clark",
+                    "email": "james.clark@example.com",
+                }
+            ],
+            "paymentIds": ["999"]
         }
-
-    def modify_item(self, new_item: OrderLineItem):
-        if new_item.quantityUnit.quantity.is_zero():
-            return self.remove_item(new_item)
-
-        self.updatedDate = datetime.now(timezone.utc)
-        item_in_cart = False
-
-        for i, item in enumerate(self.items):
-            if item_in_cart:
-                break
-            if item.id == new_item.id:
-                item_in_cart = True
-                self.items[i].quantity_updated(new_item.quantityUnit)
-        if not item_in_cart:
-            self.items.append(new_item)
-        self.__update_cart_money()
-
-    def remove_item(self, new_item: OrderLineItem):
-        self.updatedDate = datetime.now(timezone.utc)
-        item_was_removed = False
-        for item in self.items:
-            if item.id == new_item.id:
-                self.items.remove(item)
-                item_was_removed = True
-                break
-        if item_was_removed:
-            self.__update_cart_money()
-
-    def __update_cart_money(self):
-        if (self.items is None) or len(self.items) == 0:
-            self.money = None
-            return None
-        total_gross_sales_moneys = []
-        total_tax_moneys = []
-        total_discount_moneys = []
-        total_moneys = []
-        for item in self.items:
-            total_gross_sales_moneys.append(item.grossSalesMoney)
-            total_tax_moneys.append(item.totalTaxMoney)
-            total_discount_moneys.append(item.totalDiscountMoney)
-            total_moneys.append(item.totalMoney)
-
-        total_gross_sales_money = money_sum(total_gross_sales_moneys).get(self.metaData.currency)
-        total_tax_money = money_sum(total_tax_moneys).get(self.metaData.currency)
-        total_discount_money = money_sum(total_discount_moneys).get(self.metaData.currency)
-        total_moneys = money_sum(total_moneys).get(self.metaData.currency)
-
-        self.money = CartMoney(totalGrossSalesMoney=total_gross_sales_money,
-                               totalTaxMoney=total_tax_money,
-                               totalDiscountMoney=total_discount_money,
-                               totalMoney=total_moneys)
-
-
-def new_cart(location_nr: str, table_nr: int) -> Cart:
-    return Cart(id=str(ObjectId()),
-                locationId=location_nr,
-                tableNr=table_nr,
-                metaData=CartMetadata())

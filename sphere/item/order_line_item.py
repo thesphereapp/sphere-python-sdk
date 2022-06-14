@@ -46,7 +46,7 @@ class OrderLineItem(BaseModel):
                 },
                 "note": None,
                 "catalogId": "999",
-                "metadata": {
+                "metaData": {
                     "brand": "Ben and Jerry's"
                 },
                 "appliedTaxes": [
