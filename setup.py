@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name='sphere-python-sdk',
-    version='0.0.1',
+    version='0.0.2',
     author='Sphere developers',
     author_email='hello@thesphereapp.com',
     description='Sharing sphere functionality with the world',
@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url='https://github.com/thesphereapp/sphere-python-sdk',
     license='MIT',
-    packages=['sphere-api'],
+    packages=['sphere'],
     install_requires=[
         'pydantic',
         'python-dateutil',
