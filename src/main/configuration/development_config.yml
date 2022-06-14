@@ -1,6 +1,0 @@
-DB_URL: mongodb+srv://admin:cTMDP7FuZEbAsStB@sphere-staging-serverle.l7gsl.mongodb.net/myFirstDatabase?retrywrites=true
-STRIPE:
-  PUBLIC_KEY: pk_test_BN9tZQg0c1mN7pRZgdECewW2
-  PRIVATE_KEY: sk_test_FCXcaQtqH2nhY9ZHbfkvqh1z
-JWT:
-  SECRET: oMMUNvjsCBa3MZefqDjYwID8H9UgktsmDta2fZvv2dO6SfMXLQJaG81rHyJo
