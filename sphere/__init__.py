@@ -2,5 +2,7 @@ __all__ = [
     'cart',
     'catalog',
     'finance',
-    'item'
+    'item',
+    'order',
+    'payment'
 ]

@@ -110,7 +110,7 @@ class CartTest(unittest.TestCase):
                     locationId="1",
                     tableNr=1,
                     items=items,
-                    metadata=CartMetadata())
+                    metaData=CartMetadata())
 
     @staticmethod
     def __aItem(item_id: str, quantity: Decimal, base: Decimal, gross: Decimal, total: Decimal) -> OrderLineItem:
