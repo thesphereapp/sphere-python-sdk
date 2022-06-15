@@ -9,7 +9,7 @@ class Catalog(BaseModel):
     # TODO: use name field validator
     # name: str = Field( lt=512,title='Name',description='name of the catalog')
     name: str = Field(title='Name', description='name of the catalog')
-    merchantId: str = Field(title='MerchantId', description='Id of the merchant who owns it', )
+    userId: str = Field(title='UserId', description='The userId of the merchant who owns it', )
     presentAtAllLocations: bool = Field(True, title="Present at all locations",
                                         description='Boolean flag that indicates if this catalog is present at all merchant locations')
     allowedLocations: Optional[List[str]] = Field(None, title='Allowed locations',
@@ -21,9 +21,9 @@ class Catalog(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "id": "123",
+                "_id": "123",
                 "name": "Ice cream",
-                "merchantId": "456",
+                "userId": "456",
                 "presentAtAllLocations": False,
                 "allowedLocations": ["789", "101112", "456789"]
             }
