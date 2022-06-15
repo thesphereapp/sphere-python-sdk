@@ -10,8 +10,12 @@ class PaymentTest(unittest.TestCase):
             "_id": "123",
             "cartId": "300",
             "orderId": "456",
-            "money": {
+            "baseMoney": {
                 "amount": 500,
+                "currency": "GBP"
+            },
+            "netoMoney": {
+                "amount": 705,
                 "currency": "GBP"
             },
             "fee": {

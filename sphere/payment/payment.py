@@ -11,7 +11,8 @@ from sphere.payment.payment_fee import PaymentFee
 class Payment(BaseModel):
     id: Optional[str] = Field(alias="_id")
     cartId: str
-    money: Money
+    baseMoney: Money
+    netoMoney: Money
     fee: PaymentFee
     externalReferenceId: str
     externalReference: ExternalReference
@@ -26,8 +27,12 @@ class Payment(BaseModel):
                 "_id": "123",
                 "cartId": "456",
                 "orderId": "456",
-                "money": {
-                    "amount": 500,
+                "baseMoney": {
+                    "amount": 850,
+                    "currency": "GBP"
+                },
+                "netoMoney": {
+                    "amount": 705,
                     "currency": "GBP"
                 },
                 "fee": {

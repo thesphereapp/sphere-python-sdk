@@ -21,7 +21,6 @@ class Money(BaseModel):
             }
         }
 
-
 def money_sum(moneys: List[Money], precision=3) -> Dict[Currency, Money]:
     moneys_not_null = [m for m in moneys if m is not None]
     if len(moneys_not_null) == 0:
