@@ -1,5 +1,5 @@
 __all__ = [
     'cart',
-    'cart_money',
-    'cart_metadata'
+    'cart_metadata',
+    'cart_money'
 ]

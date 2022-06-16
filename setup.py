@@ -12,7 +12,7 @@ def get_packages():
 
 setup(
     name='sphere-python-sdk',
-    version='0.3.1',
+    version='0.4.0',
     author='Sphere developers',
     author_email='hello@thesphereapp.com',
     description='Sharing sphere functionality with the world',
