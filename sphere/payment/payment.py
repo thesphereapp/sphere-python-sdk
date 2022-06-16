@@ -1,19 +1,19 @@
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Optional, List
 
 from bson import ObjectId
 from pydantic import Field, BaseModel
 from sphere.finance.money import Money
 from sphere.payment.external_reference import ExternalReference
-from sphere.payment.payment_fee import PaymentFee
+from sphere.payment.payment_fee import  Fee
 
 
 class Payment(BaseModel):
     id: Optional[str] = Field(alias="_id")
     cartId: str
     baseMoney: Money
-    netoMoney: Money
-    fee: PaymentFee
+    netMoney: Money
+    fees: List[Fee] = []
     externalReferenceId: str
     externalReference: ExternalReference
     createdDate: datetime = datetime.now(timezone.utc)
@@ -25,39 +25,39 @@ class Payment(BaseModel):
         schema_extra = {
             "example": {
                 "_id": "123",
-                "cartId": "456",
+                "cartId": "300",
                 "orderId": "456",
                 "baseMoney": {
                     "amount": 850,
                     "currency": "GBP"
                 },
-                "netoMoney": {
-                    "amount": 705,
+                "netMoney": {
+                    "amount": 701,
                     "currency": "GBP"
                 },
-                "fee": {
-                    "paymentProcessioningFee": {
-                        "name": "Stripe payment processing fee",
+                "fees": [
+                    {
+                        "name": "Stripe card processing",
                         "money": {
                             "amount": 32,
                             "currency": "GBP"
                         }
                     },
-                    "sphereFee": {
-                        "name": "Sphere platform fee",
+                    {
+                        "name": "Sphere platform",
                         "money": {
                             "amount": 85,
                             "currency": "GBP"
                         }
                     },
-                    "payoutProcessingFee": {
-                        "name": "Wise payout fee",
+                    {
+                        "name": "Wise payout",
                         "money": {
-                            "amount": 28,
+                            "amount": 32,
                             "currency": "GBP"
                         }
                     },
-                },
+                ],
                 "externalReferenceId": "sp_123123123",
                 "externalReference": "STRIPE_CHARGE_ID",
                 "createdDate": "2022-03-10 07:00:00.550604",

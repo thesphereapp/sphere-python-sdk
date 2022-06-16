@@ -1,4 +1,8 @@
 __all__ = [
+    'external_reference',
     'payment',
-    'external_reference'
+    'payment_fee',
+    'payout',
+    'payout_state',
+    'payout_state_log'
 ]
