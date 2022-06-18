@@ -20,8 +20,8 @@ from sphere.item.order_line_item import OrderLineItem
 class CartTest(unittest.TestCase):
     def test_remove_element_from_single_element_cart(self):
         # given
-        old_item = self.__aItem("1", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
-        changed_item = self.__aItem("1", Decimal(0), Decimal(100), Decimal(500), Decimal(600))
+        old_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
+        changed_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(0), Decimal(100), Decimal(500), Decimal(600))
         # when
         cart = self.__aCart([old_item])
         cart.modify_item(changed_item)
@@ -31,9 +31,9 @@ class CartTest(unittest.TestCase):
 
     def test_remove_element_from_multi_element_cart(self):
         # given
-        random_item = self.__aItem("0", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
-        old_item = self.__aItem("1", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
-        changed_item = self.__aItem("1", Decimal(0), Decimal(100), Decimal(500), Decimal(600))
+        random_item = self.__aItem("62ae18319bb4b7940a2f05eb", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
+        old_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
+        changed_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(0), Decimal(100), Decimal(500), Decimal(600))
         expected_money = self.__aCartMoney(Decimal(500), None, None, Decimal(600))
         # when
         cart = self.__aCart([random_item, old_item])
@@ -44,9 +44,9 @@ class CartTest(unittest.TestCase):
 
     def test_modify_existing_element(self):
         # given
-        random_item = self.__aItem("0", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
-        old_item = self.__aItem("1", Decimal(5), Decimal(100), Decimal(500), Decimal(500))
-        changed_item = self.__aItem("1", Decimal(6), Decimal(100), Decimal(600), Decimal(625))
+        random_item = self.__aItem("62ae18319bb4b7940a2f05eb", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
+        old_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(5), Decimal(100), Decimal(500), Decimal(500))
+        changed_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(6), Decimal(100), Decimal(600), Decimal(625))
         expected_money = self.__aCartMoney(Decimal(1100), None, None, Decimal(1200))
         # when
         cart = self.__aCart([random_item, old_item])
@@ -57,8 +57,8 @@ class CartTest(unittest.TestCase):
 
     def test_adding_a_new_element(self):
         # given
-        old_item = self.__aItem("0", Decimal(5), Decimal(100), Decimal(500), Decimal(500))
-        new_item = self.__aItem("1", Decimal(1), Decimal(100), Decimal(500), Decimal(525))
+        old_item = self.__aItem("62ae18319bb4b7940a2f05eb", Decimal(5), Decimal(100), Decimal(500), Decimal(500))
+        new_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(1), Decimal(100), Decimal(500), Decimal(525))
         expected_money = self.__aCartMoney(Decimal(1000), None, None, Decimal(1025))
         # when
         cart = self.__aCart([old_item])
@@ -69,8 +69,8 @@ class CartTest(unittest.TestCase):
 
     def test_remove_element_that_does_not_exist(self):
         # given
-        old_item = self.__aItem("1", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
-        remove_item = self.__aItem("0", Decimal(0), Decimal(100), Decimal(500), Decimal(600))
+        old_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
+        remove_item = self.__aItem("62ae18319bb4b7940a2f05eb", Decimal(0), Decimal(100), Decimal(500), Decimal(600))
         expected_money = self.__aCartMoney(Decimal(500), None, None, Decimal(600))
         # when
         cart = self.__aCart([old_item])
@@ -83,8 +83,8 @@ class CartTest(unittest.TestCase):
 
     def test_emting_a_cart(self):
         # given
-        old_item = self.__aItem("1", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
-        remove_item = self.__aItem("1", Decimal(0), Decimal(100), Decimal(500), Decimal(600))
+        old_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
+        remove_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(0), Decimal(100), Decimal(500), Decimal(600))
         # when
         cart = self.__aCart([old_item])
         cart.money = None
@@ -95,8 +95,8 @@ class CartTest(unittest.TestCase):
 
     def test_remove_existing_element(self):
         # given
-        old_item = self.__aItem("1", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
-        remove_item = self.__aItem("1", Decimal(4), Decimal(100), Decimal(400), Decimal(500))
+        old_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(5), Decimal(100), Decimal(500), Decimal(600))
+        remove_item = self.__aItem("62ae180ffbcf07a17980643e", Decimal(4), Decimal(100), Decimal(400), Decimal(500))
         # when
         cart = self.__aCart([old_item])
         cart.remove_item(remove_item)
