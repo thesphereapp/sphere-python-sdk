@@ -13,7 +13,7 @@ class UserTest(unittest.TestCase):
         # when
         resp = User(**my_dict)
         # then
-        self.assertEqual("123", resp.id)
+        self.assertEqual("62ae173adab723d7f0bdf42f", resp.id)
         self.assertEqual("ACTIVE", resp.state.name)
         self.assertEqual(1, len(resp.stateChangeLog))
 
@@ -35,7 +35,7 @@ class UserTest(unittest.TestCase):
     @staticmethod
     def user_dict() -> Dict[str, any]:
         return {
-            "_id": "123",
+            "_id": "62ae173adab723d7f0bdf42f",
             "email": "example@gmail.com",
             "password": "xxx"
         }

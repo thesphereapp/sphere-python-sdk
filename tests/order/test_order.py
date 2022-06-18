@@ -17,7 +17,7 @@ class OrderTest(unittest.TestCase):
     @staticmethod
     def order_dict() -> Dict[str, any]:
         return {
-            "_id": "123",
+            "_id": "62ae14b8df1327a16c7b8895",
             "state": "COMPLETED",
             "stateChangeLog": [
                 {
@@ -33,10 +33,10 @@ class OrderTest(unittest.TestCase):
                     "date": "2022-03-10 07:03:00"
                 }
             ],
-            "cartId": "123",
+            "cartId": "62ae14c17150e3c9468f6d3e",
             "cart": {
-                "_id": "123",
-                "locationId": "456789",
+                "_id": "62ae14dcc9a35af995451d51",
+                "locationId": "62ae14e9f5cb6912ffd15ed0",
                 "tableNr": 1,
                 "metaData": {
                     "cartCurrency": "GBP"
@@ -45,7 +45,7 @@ class OrderTest(unittest.TestCase):
                 "updatedDate": "2022-06-05 07:05:00.550604",
                 "items": [
                     {
-                        "id": "123",
+                        "_id": "62ae14f5a50dc81352d6f5e4",
                         "name": "Vanilla ice cream",
                         "quantityUnit": {
                             "quantity": 2,
@@ -53,7 +53,7 @@ class OrderTest(unittest.TestCase):
                             "precision": 0
                         },
                         "note": None,
-                        "catalogId": "999",
+                        "catalogId": "62ae14fc571187339bd35890",
                         "metaData": {
                             "brand": "Ben and Jerry's"
                         },
@@ -104,7 +104,7 @@ class OrderTest(unittest.TestCase):
                         }
                     },
                     {
-                        "id": "123",
+                        "_id": "62ae1506198cb583f14ff853",
                         "name": "Chocolate ice cream",
                         "quantityUnit": {
                             "quantity": 1,
@@ -112,7 +112,7 @@ class OrderTest(unittest.TestCase):
                             "precision": 0
                         },
                         "note": "Make it nice",
-                        "catalogId": "999",
+                        "catalogId": "62ae15119a5bf83c2d7c185a",
                         "metaData": {
                             "brand": "Ben and Jerry's"
                         },
@@ -171,12 +171,12 @@ class OrderTest(unittest.TestCase):
                     },
                 }
             },
-            "profileId": "459",
+            "profileId": "62ae151e9236107a9df4d07d",
             "participants": [
                 {
                     "name": "James Clark",
                     "email": "james.clark@example.com",
                 }
             ],
-            "paymentIds": ["999"]
+            "paymentIds": ["62ae15234c824a55d4fd7a07"]
         }

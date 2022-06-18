@@ -30,8 +30,8 @@ class PayoutTest(unittest.TestCase):
     def test_adding_payment_already_processed(self):
         payout = Payout(**self.__dict_value())
         payment = Payment(**self.__payment_dict())
-        payment.id = "1"
         self.assertEqual(7, len(payout.paymentIds))
+        payment.id = "62ae15a076b93f1e308f4a2f"
         payout.add_payment(payment)
         self.assertEqual(7, len(payout.paymentIds))
         self.assertEqual("GBP", payout.baseMoney.currency.value)
@@ -75,17 +75,17 @@ class PayoutTest(unittest.TestCase):
     @staticmethod
     def __dict_value() -> Dict[str, any]:
         return {
-            "_id": "123",
-            "userId": "456",
-            "profileId": "789",
+            "_id": "62ae157fb0bddbccd414e896",
+            "userId": "62ae15853fb296d960e908e9",
+            "profileId": "62ae158ba68815182544ea56",
             "paymentIds": [
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "9",
+                "62ae15903dc86aab32abbc2f",
+                "62ae15953a2a4982c7bfa1e6",
+                "62ae159af995d8864d91a644",
+                "62ae15a076b93f1e308f4a2f",
+                "62ae15a56fe7dd1a2f56b3b8",
+                "62ae15abbbfeb5ed9eed9078",
+                "62ae15b0696255a29f4fca99",
             ],
             "baseMoney": {
                 "amount": 1000,
@@ -103,9 +103,9 @@ class PayoutTest(unittest.TestCase):
     @staticmethod
     def __payment_dict() -> Dict[str, any]:
         return {
-            "_id": "123",
-            "cartId": "300",
-            "orderId": "456",
+            "_id": "62ae15beb1d0b7c8631de115",
+            "cartId": "62ae15c4ec4e07d7d19067f1",
+            "orderId": "62ae15c93c0e1bdf7066fe66",
             "baseMoney": {
                 "amount": 1000,
                 "currency": "GBP"

@@ -1,6 +1,9 @@
 from decimal import Decimal
 from typing import Optional, List, Dict, Union
 import copy
+
+import bson
+import pydantic
 from bson import ObjectId
 from pydantic import Field, BaseModel
 from sphere.finance.currency import Currency
@@ -31,13 +34,33 @@ class OrderLineItem(BaseModel):
     totalDiscountMoney: Optional[Money] = None
     totalMoney: Money
 
+    @pydantic.validator("id")
+    @classmethod
+    def id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid id format")
+
+    @pydantic.validator("name")
+    @classmethod
+    def name_is_valid(cls, value):
+        if value is None or len(value) == 0:
+            raise ValueError("Item name can not be empty")
+        value = value.strip()
+        if len(value) == 0:
+            raise ValueError("Item name can not be empty")
+        if len(value) > 512:
+            raise ValueError("Item name needs to be smaller than 512 characters")
+
+        return value
+
     class Config:
         allow_population_by_field_name = True
         arbitrary_types_allowed = False
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "id": "123",
+                "_id": "62ae145d2f7acdc7c21c1406",
                 "name": "Ice cream",
                 "quantityUnit": {
                     "quantity": "4",
@@ -45,7 +68,7 @@ class OrderLineItem(BaseModel):
                     "precision": 0
                 },
                 "note": None,
-                "catalogId": "999",
+                "catalogId": "62ae149488e6ced1ab75fadd",
                 "metaData": {
                     "brand": "Ben and Jerry's"
                 },

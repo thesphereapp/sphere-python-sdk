@@ -106,8 +106,8 @@ class CartTest(unittest.TestCase):
 
     @staticmethod
     def __aCart(items: List[OrderLineItem]) -> Cart:
-        return Cart(id="123",
-                    locationId="1",
+        return Cart(id="62ae0ea285976d54f1e3ffa6",
+                    locationId="62ae135fd90f92ef119d5c82",
                     tableNr=1,
                     items=items,
                     metaData=CartMetadata())

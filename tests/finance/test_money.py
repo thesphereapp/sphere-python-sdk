@@ -10,6 +10,14 @@ from sphere.finance.money import money_sum, Money, money_multiply, money_divide,
 
 
 class MoneyTest(TestCase):
+    def test_is_positive(self):
+        # given
+        money_values = [Money(amount=Decimal(5)), Money(amount=Decimal(0)), Money(amount=Decimal(-2))]
+        # when
+        results = [m.is_positive() for m in money_values]
+        # then
+        self.assertEqual([True, False, False], results)
+
     def test_empty_money_list_is_empty_dict(self):
         # given
         moneys = []

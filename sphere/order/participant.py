@@ -3,7 +3,9 @@ from pydantic import BaseModel
 
 
 class Participant(BaseModel):
+    # TODO: both values can not be null
     name: Optional[str] = None
+    # TODO: add regex check
     email: Optional[str] = None
 
     class Config:

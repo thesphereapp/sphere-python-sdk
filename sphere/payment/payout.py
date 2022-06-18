@@ -1,5 +1,7 @@
 from typing import List, Set
 
+import bson
+import pydantic
 from bson import ObjectId
 from pydantic import Field, BaseModel
 from sphere.finance.money import Money, money_sum
@@ -17,6 +19,27 @@ class Payout(BaseModel):
     baseMoney: Money
     state: PayoutState = PayoutState.NEW
     stateChangeLog: List[PayoutStateLog] = [PayoutStateLog()]
+
+    @pydantic.validator("id")
+    @classmethod
+    def id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid id format")
+
+    @pydantic.validator("userId")
+    @classmethod
+    def user_id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid userId format")
+
+    @pydantic.validator("profileId")
+    @classmethod
+    def profileId_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid profileId format")
 
     class Config:
         allow_population_by_field_name = True
@@ -64,5 +87,8 @@ class Payout(BaseModel):
         if payment.netMoney.currency != self.baseMoney.currency:
             raise ValueError(
                 "Payout and payment have different currencies. " + payment.netMoney.currency.value + " vs " + self.baseMoney.currency.value)
+        if bson.objectid.ObjectId.is_valid(payment.id) is False:
+            raise ValueError("Invalid paymentid format")
+
         self.paymentIds.add(payment.id)
         self.baseMoney = money_sum([self.baseMoney, payment.netMoney])[payment.netMoney.currency]

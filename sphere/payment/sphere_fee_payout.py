@@ -1,6 +1,8 @@
 from decimal import Decimal
 from typing import List, Set
 
+import bson
+import pydantic
 from bson import ObjectId
 from pydantic import Field, BaseModel
 
@@ -20,6 +22,13 @@ class SphereFeePayout(BaseModel):
     fees: List[Fee]
     state: PayoutState = PayoutState.NEW
     stateChangeLog: List[PayoutStateLog] = [PayoutStateLog()]
+
+    @pydantic.validator("id")
+    @classmethod
+    def id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid id format")
 
     class Config:
         allow_population_by_field_name = True
@@ -82,6 +91,10 @@ class SphereFeePayout(BaseModel):
         if payout.baseMoney.currency != self.baseMoney.currency:
             raise ValueError(
                 "Sphere payout and regular payout have different currencies. " + payout.baseMoney.currency.value + " vs " + self.baseMoney.currency.value)
+
+        if bson.objectid.ObjectId.is_valid(payout.id) is False:
+            raise ValueError("Invalid payoutId format")
+
         self.payoutIds.add(payout.id)
         fee_sum = total_fees(sphere_fees)
         self.baseMoney = money_sum([self.baseMoney, fee_sum])[self.baseMoney.currency]
@@ -103,6 +116,6 @@ def initial_payout(payout_fees: List[Fee]) -> SphereFeePayout:
         "payoutIds": [],
         "baseMoney": base_money,
         "netMoney": net_money,
-        "fees":payout_fees,
+        "fees": payout_fees,
     }
     return SphereFeePayout(**payload)

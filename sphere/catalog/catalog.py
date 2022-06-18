@@ -1,13 +1,13 @@
 from typing import Optional, List
 
+import bson
+import pydantic
 from bson import ObjectId
 from pydantic import Field, BaseModel
 
 
 class Catalog(BaseModel):
-    id: str = Field(str(ObjectId()), alias="_id")
-    # TODO: use name field validator
-    # name: str = Field( lt=512,title='Name',description='name of the catalog')
+    id: str = Field(alias="_id")
     name: str = Field(title='Name', description='name of the catalog')
     userId: str = Field(title='UserId', description='The userId of the merchant who owns it', )
     presentAtAllLocations: bool = Field(True, title="Present at all locations",
@@ -16,17 +16,44 @@ class Catalog(BaseModel):
     allowedLocations: Optional[List[str]] = Field(None, title='Allowed locations',
                                                   description='Ids of locations where this catalog is allowed')
 
+    @pydantic.validator("id")
+    @classmethod
+    def id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid id format")
+
+    @pydantic.validator("name")
+    @classmethod
+    def name_is_valid(cls, value):
+        if value is None or len(value) == 0:
+            raise ValueError("Category name can not be empty")
+        value = value.strip()
+        if len(value) == 0:
+            raise ValueError("Category name can not be empty")
+        if len(value) > 512:
+            raise ValueError("Category name needs to be smaller than 512 characters")
+
+        return value
+
+    @pydantic.validator("userId")
+    @classmethod
+    def userid_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid userId format")
+
     class Config:
         allow_population_by_field_name = True
         arbitrary_types_allowed = False
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "_id": "123",
+                "_id": "62ae0e9814bf33d7f9d010c3",
                 "name": "Ice cream",
-                "userId": "456",
+                "userId": "62ae0ea285976d54f1e3ffa6",
                 "presentAtAllLocations": False,
-                "allowedLocations": ["789", "101112", "456789"]
+                "allowedLocations": ["62ae13f741613f993baead1a", "62ae13fe2ef3d4f322d475c6", "62ae1404e694145e58696d50"]
             }
         }
 

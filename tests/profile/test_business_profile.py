@@ -13,7 +13,7 @@ class BusinessProfileTest(unittest.TestCase):
         # when
         resp = BusinessProfile(**my_dict)
         # then
-        self.assertEqual("456", resp.userId)
+        self.assertEqual("62ae1724378ae6f44d92aa2c", resp.userId)
         self.assertTrue(resp.wiseRecipientId is None)
         self.assertEqual("ACTIVE", resp.state.name)
         self.assertEqual(1, len(resp.stateChangeLog))
@@ -36,8 +36,8 @@ class BusinessProfileTest(unittest.TestCase):
     @staticmethod
     def profile_dict() -> Dict[str, any]:
         return {
-            "_id": "123",
-            "userId": "456",
+            "_id": "62ae171da9ef162ddd0d5119",
+            "userId": "62ae1724378ae6f44d92aa2c",
             "webpage": "https://example.com",
             "avatar": "https://example.com/logo.png"
         }

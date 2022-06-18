@@ -1,5 +1,7 @@
-from typing import Optional, List
+from typing import Optional, List, Set
 
+import bson
+import pydantic
 from bson import ObjectId
 from pydantic import Field, BaseModel
 from sphere.cart.cart import Cart
@@ -10,14 +12,43 @@ from sphere.order.participant import Participant
 
 
 class Order(BaseModel):
-    id: Optional[str] = Field(alias="_id")
+    id: str = Field(alias="_id")
     state: OrderState = OrderState.NEW
     stateChangeLog: List[OrderStateLog] = [OrderStateLog()]
     cartId: str
     cart: Cart
     profileId: str
     participants: Optional[List[Participant]] = None
-    paymentIds: List[str] = []
+    paymentIds: Set[str] = set()
+
+    @pydantic.validator("id")
+    @classmethod
+    def id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid id format")
+
+    @pydantic.validator("cartId")
+    @classmethod
+    def cart_id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid cartId format")
+
+    @pydantic.validator("profileId")
+    @classmethod
+    def profile_id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid profileId format")
+
+    @pydantic.validator("paymentIds")
+    @classmethod
+    def payment_id_is_valid(cls, value):
+        for p in value:
+            if not bson.objectid.ObjectId.is_valid(p):
+                raise ValueError("Invalid paymentId format")
+        return value
 
     def change_state(self, new_state: OrderState):
         if self.state == new_state:
@@ -27,8 +58,7 @@ class Order(BaseModel):
         self.stateChangeLog.append(log)
 
     def add_payment_id(self, payment_id: str):
-        if payment_id not in self.paymentIds:
-            self.paymentIds.append(payment_id)
+        self.paymentIds.add(payment_id)
 
     class Config:
         allow_population_by_field_name = True

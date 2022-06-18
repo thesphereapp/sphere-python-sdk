@@ -21,6 +21,9 @@ class Money(BaseModel):
             }
         }
 
+    def is_positive(self) -> bool:
+        return self.amount > Decimal(0)
+
 
 def money_sum(moneys: List[Money], precision=3) -> Dict[Currency, Money]:
     moneys_not_null = [m for m in moneys if m is not None]

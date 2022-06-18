@@ -13,7 +13,7 @@ class LocationTest(unittest.TestCase):
         # when
         resp = Location(**my_dict)
         # then
-        self.assertEqual("456", resp.userId)
+        self.assertEqual("62ae137ea3396828f31f86f9", resp.userId)
         self.assertEqual(True, resp.is_active())
         self.assertEqual("ACTIVE", resp.state.name)
         self.assertEqual(1, len(resp.stateChangeLog))
@@ -36,8 +36,8 @@ class LocationTest(unittest.TestCase):
     @staticmethod
     def location_dict() -> Dict[str, any]:
         return {
-            "_id": "123",
-            "userId": "456",
-            "profileId": "999",
+            "_id": "62ae1379bf876b9dd6a87713",
+            "userId": "62ae137ea3396828f31f86f9",
+            "profileId": "62ae138382bfbc5db559c9e0",
             "name": "My location"
         }

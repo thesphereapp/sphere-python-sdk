@@ -1,5 +1,7 @@
 from typing import Optional, List
 
+import bson
+import pydantic
 from bson import ObjectId
 from pydantic import Field, BaseModel
 
@@ -10,11 +12,27 @@ from sphere.profile.profile_state_log import ProfileStateLog
 class BusinessProfile(BaseModel):
     id: str = Field(alias="_id")
     userId: str
+    # TODO: add validator
     webpage: str
+    # TODO: add validator
     avatar: str
     wiseRecipientId: Optional[int] = None
     state: ProfileState = ProfileState.ACTIVE
     stateChangeLog: List[ProfileStateLog] = [ProfileStateLog()]
+
+    @pydantic.validator("id")
+    @classmethod
+    def id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid id format")
+
+    @pydantic.validator("userId")
+    @classmethod
+    def user_id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid userId format")
 
     class Config:
         allow_population_by_field_name = True

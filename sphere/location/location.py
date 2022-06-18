@@ -1,5 +1,7 @@
 from typing import Optional, List
 
+import bson
+import pydantic
 from bson import ObjectId
 from pydantic import Field, BaseModel
 
@@ -11,9 +13,30 @@ class Location(BaseModel):
     id: str = Field(alias="_id")
     userId: str
     profileId: str
-    name: Optional[str] = None
+    name: str
     state: LocationState = LocationState.ACTIVE
     stateChangeLog: List[LocationStateLog] = [LocationStateLog()]
+
+    @pydantic.validator("id")
+    @classmethod
+    def id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid id format")
+
+    @pydantic.validator("userId")
+    @classmethod
+    def user_id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid userId format")
+
+    @pydantic.validator("profileId")
+    @classmethod
+    def profile_id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid profileId format")
 
     class Config:
         allow_population_by_field_name = True

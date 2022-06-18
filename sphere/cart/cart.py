@@ -1,6 +1,8 @@
 from datetime import datetime, timezone
 from typing import Optional, List
 
+import bson
+import pydantic
 from bson import ObjectId
 from pydantic import Field, BaseModel
 from sphere.finance.money import money_sum
@@ -13,7 +15,7 @@ from sphere.cart.cart_metadata import CartMetadata
 
 
 class Cart(BaseModel):
-    id: Optional[str] = Field(alias="_id")
+    id: str = Field(alias="_id")
     locationId: str
     tableNr: int
     metaData: CartMetadata
@@ -22,14 +24,35 @@ class Cart(BaseModel):
     items: List[OrderLineItem] = []
     money: Optional[CartMoney] = None
 
+    @pydantic.validator("id")
+    @classmethod
+    def id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid id format")
+
+    @pydantic.validator("locationId")
+    @classmethod
+    def location_id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid locationId format")
+
+    @pydantic.validator("tableNr")
+    @classmethod
+    def table_nr_is_valid(cls, value):
+        if value < 0:
+            raise ValueError("Table nr must be positive")
+        return value
+
     class Config:
         allow_population_by_field_name = True
         arbitrary_types_allowed = False
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "_id": "123",
-                "locationId": "456789",
+                "_id": "62ae13ad7d112c682da8fb86",
+                "locationId": "62ae13b32c466e9219dac036",
                 "tableNr": 1,
                 "metaData": {
                     "cartCurrency": "GBP"
@@ -38,7 +61,7 @@ class Cart(BaseModel):
                 "updatedDate": "2022-06-05 07:05:00.550604",
                 "items": [
                     {
-                        "id": "123",
+                        "_id": "62ae13de77cfd04c41d195de",
                         "name": "Vanilla ice cream",
                         "quantityUnit": {
                             "quantity": 2,
@@ -97,7 +120,7 @@ class Cart(BaseModel):
                         }
                     },
                     {
-                        "id": "123",
+                        "_id": "62ae13e57719886fd356bb13",
                         "name": "Chocolate ice cream",
                         "quantityUnit": {
                             "quantity": 1,
