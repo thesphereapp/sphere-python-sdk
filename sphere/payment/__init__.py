@@ -4,5 +4,6 @@ __all__ = [
     'payment_fee',
     'payout',
     'payout_state',
-    'payout_state_log'
+    'payout_state_log',
+    'sphere_fee_payout'
 ]

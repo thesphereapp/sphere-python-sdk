@@ -1,6 +1,5 @@
 import unittest
-
-from dns.immutable import Dict
+from typing import Dict
 
 from sphere.payment.payment import Payment
 
@@ -13,14 +12,14 @@ class PaymentTest(unittest.TestCase):
         # when
         resp = Payment(**my_dict)
         # then
-        self.assertEqual(resp.cartId, "300")
+        self.assertEqual("62ae1547e32e5edcd494aa39",resp.cartId)
 
     @staticmethod
     def __dict_value() -> Dict[str, any]:
         return {
-            "_id": "123",
-            "cartId": "300",
-            "orderId": "456",
+            "_id": "62ae1550abbc8ba71b6ecf09",
+            "cartId": "62ae1547e32e5edcd494aa39",
+            "orderId": "62ae1557393af9c2ae86a5b2",
             "baseMoney": {
                 "amount": 850,
                 "currency": "GBP"

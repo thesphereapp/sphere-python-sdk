@@ -1,15 +1,17 @@
 from datetime import datetime, timezone
 from typing import Optional, List
 
+import bson
+import pydantic
 from bson import ObjectId
 from pydantic import Field, BaseModel
 from sphere.finance.money import Money
 from sphere.payment.external_reference import ExternalReference
-from sphere.payment.payment_fee import  Fee
+from sphere.payment.payment_fee import Fee
 
 
 class Payment(BaseModel):
-    id: Optional[str] = Field(alias="_id")
+    id: str = Field(alias="_id")
     cartId: str
     baseMoney: Money
     netMoney: Money
@@ -17,6 +19,20 @@ class Payment(BaseModel):
     externalReferenceId: str
     externalReference: ExternalReference
     createdDate: datetime = datetime.now(timezone.utc)
+
+    @pydantic.validator("id")
+    @classmethod
+    def id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid id format")
+
+    @pydantic.validator("cartId")
+    @classmethod
+    def cart_id_is_valid(cls, value):
+        if bson.objectid.ObjectId.is_valid(value):
+            return value
+        raise ValueError("Invalid cartId format")
 
     class Config:
         allow_population_by_field_name = True
@@ -49,14 +65,7 @@ class Payment(BaseModel):
                             "amount": 85,
                             "currency": "GBP"
                         }
-                    },
-                    {
-                        "name": "Wise payout",
-                        "money": {
-                            "amount": 32,
-                            "currency": "GBP"
-                        }
-                    },
+                    }
                 ],
                 "externalReferenceId": "sp_123123123",
                 "externalReference": "STRIPE_CHARGE_ID",

@@ -1,8 +1,6 @@
 import unittest
 from typing import Dict
 
-from sphere.order.order_state import OrderState
-from sphere.order.order_state_log import OrderStateLog
 from sphere.order.participant import Participant
 
 
@@ -18,7 +16,7 @@ class ParticipantTest(unittest.TestCase):
 
     @staticmethod
     def order_dict() -> Dict[str, any]:
-        return  {
-                "name": "James Clark",
-                "email": "james.clark@example.com",
-            }
+        return {
+            "name": "James Clark",
+            "email": "james.clark@example.com",
+        }

@@ -1,8 +1,6 @@
 import unittest
+from typing import Dict
 
-from dns.immutable import Dict
-
-from sphere.payment.payment import Payment
 from sphere.payment.payout_state_log import PayoutStateLog
 
 

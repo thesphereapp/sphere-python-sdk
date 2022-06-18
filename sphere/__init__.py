@@ -3,6 +3,9 @@ __all__ = [
     'catalog',
     'finance',
     'item',
+    'location',
     'order',
-    'payment'
+    'payment',
+    'profile',
+    'user'
 ]
