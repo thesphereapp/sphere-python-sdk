@@ -21,6 +21,7 @@ class Money(BaseModel):
             }
         }
 
+
 def money_sum(moneys: List[Money], precision=3) -> Dict[Currency, Money]:
     moneys_not_null = [m for m in moneys if m is not None]
     if len(moneys_not_null) == 0:
@@ -61,3 +62,11 @@ def money_divide(money: Money, quantity_unit: OrderQuantityUnit) -> Money:
     amount = money.amount / quantity_unit.quantity
     amount = Decimal(round(amount, quantity_unit.precision))
     return Money(amount=amount, currency=money.currency)
+
+
+def money_subtract(money1: Money, money2: Money) -> Money:
+    if money1.currency != money2.currency:
+        raise ValueError(
+            "Subtraction only allowed for moneys in the same currency. " + money1.currency.value + " vs " + money2.currency.value)
+    new_amount = money1.amount - money2.amount
+    return Money(amount=new_amount, currency=money1.currency)

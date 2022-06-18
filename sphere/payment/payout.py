@@ -2,7 +2,8 @@ from typing import List, Set
 
 from bson import ObjectId
 from pydantic import Field, BaseModel
-from sphere.finance.money import Money
+from sphere.finance.money import Money, money_sum
+from sphere.payment.payment import Payment
 
 from sphere.payment.payout_state import PayoutState
 from sphere.payment.payout_state_log import PayoutStateLog
@@ -13,7 +14,7 @@ class Payout(BaseModel):
     userId: str
     profileId: str
     paymentIds: Set[str]
-    amount: Money
+    baseMoney: Money
     state: PayoutState = PayoutState.NEW
     stateChangeLog: List[PayoutStateLog] = [PayoutStateLog()]
 
@@ -35,7 +36,7 @@ class Payout(BaseModel):
                     "6",
                     "9",
                 ],
-                "amount": {
+                "baseMoney": {
                     "amount": 850,
                     "currency": "GBP"
                 },
@@ -55,3 +56,13 @@ class Payout(BaseModel):
         self.state = new_state
         log = PayoutStateLog(state=new_state)
         self.stateChangeLog.append(log)
+
+    def add_payment(self, payment: Payment):
+        for payment_id in self.paymentIds:
+            if payment_id == payment.id:
+                return None
+        if payment.netMoney.currency != self.baseMoney.currency:
+            raise ValueError(
+                "Payout and payment have different currencies. " + payment.netMoney.currency.value + " vs " + self.baseMoney.currency.value)
+        self.paymentIds.add(payment.id)
+        self.baseMoney = money_sum([self.baseMoney, payment.netMoney])[payment.netMoney.currency]

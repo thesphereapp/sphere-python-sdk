@@ -1,7 +1,6 @@
 from datetime import datetime, timezone
 from pydantic import BaseModel
 
-from sphere.order.order_state import OrderState
 from sphere.profile.profile_state import ProfileState
 
 

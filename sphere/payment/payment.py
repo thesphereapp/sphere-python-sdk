@@ -5,7 +5,7 @@ from bson import ObjectId
 from pydantic import Field, BaseModel
 from sphere.finance.money import Money
 from sphere.payment.external_reference import ExternalReference
-from sphere.payment.payment_fee import  Fee
+from sphere.payment.payment_fee import Fee
 
 
 class Payment(BaseModel):
@@ -49,14 +49,7 @@ class Payment(BaseModel):
                             "amount": 85,
                             "currency": "GBP"
                         }
-                    },
-                    {
-                        "name": "Wise payout",
-                        "money": {
-                            "amount": 32,
-                            "currency": "GBP"
-                        }
-                    },
+                    }
                 ],
                 "externalReferenceId": "sp_123123123",
                 "externalReference": "STRIPE_CHARGE_ID",

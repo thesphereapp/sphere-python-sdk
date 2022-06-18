@@ -6,10 +6,10 @@ from sphere.finance.currency import Currency
 
 from sphere.item.order_quantity_unit import OrderQuantityUnit
 
-from sphere.finance.money import money_sum, Money, money_multiply, money_divide
+from sphere.finance.money import money_sum, Money, money_multiply, money_divide, money_subtract
 
 
-class TestMoney(TestCase):
+class MoneyTest(TestCase):
     def test_empty_money_list_is_empty_dict(self):
         # given
         moneys = []
@@ -132,3 +132,27 @@ class TestMoney(TestCase):
         # then
         self.assertEqual(True, Decimal(1.78) - result.amount < Decimal(0.01))
         self.assertEqual(Currency.EUR, result.currency)
+
+    def test_subtraction_with_same_currency(self):
+        # given
+        money1 = Money(amount=Decimal(4.25), currency=Currency.EUR)
+        money2 = Money(amount=Decimal(0.34), currency=Currency.EUR)
+        # when
+        result = money_subtract(money1, money2)
+        # then
+        self.assertEqual(True, Decimal(3.91) - result.amount < Decimal(0.01))
+        self.assertEqual(Currency.EUR, result.currency)
+
+    def test_subtraction_with_different_currency(self):
+        money1 = Money(amount=Decimal(1), currency=Currency.GBP)
+        money2 = Money(amount=Decimal(0.5), currency=Currency.EUR)
+        error_was_raised = False
+        error_message = ""
+        try:
+            money_subtract(money1, money2)
+        except ValueError as e:
+            error_was_raised = True
+            error_message = e.args[0]
+
+        self.assertTrue(error_was_raised)
+        self.assertEqual("Subtraction only allowed for moneys in the same currency. GBP vs EUR", error_message)

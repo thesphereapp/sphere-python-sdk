@@ -18,6 +18,6 @@ class OrderStateLogTest(unittest.TestCase):
     @staticmethod
     def order_dict() -> Dict[str, any]:
         return {
-                "state": "NEW",
-                "date": "2022-03-10 07:00:00.550604",
-            }
+            "state": "NEW",
+            "date": "2022-03-10 07:00:00.550604",
+        }
