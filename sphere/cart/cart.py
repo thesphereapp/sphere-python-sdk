@@ -166,33 +166,37 @@ class Cart(BaseModel):
             }
         }
 
+    def item_in_cart(self, item_id: str) -> bool:
+        for item in self.items:
+            if item.id == item_id:
+                return True
+        return False
+
+    def __item_id(self, item_id: str) -> Optional[int]:
+        for i, item in enumerate(self.items):
+            if item.id == item_id:
+                return i
+        return None
+
     def modify_item(self, new_item: OrderLineItem):
         if new_item.quantityUnit.quantity.is_zero():
             return self.remove_item(new_item)
 
         self.updatedDate = datetime.now(timezone.utc)
-        item_in_cart = False
-
-        for i, item in enumerate(self.items):
-            if item_in_cart:
-                break
-            if item.id == new_item.id:
-                item_in_cart = True
-                self.items[i].quantity_updated(new_item.quantityUnit)
-        if not item_in_cart:
+        my_item_id = self.__item_id(new_item.id)
+        if my_item_id is not None:
+            self.items[my_item_id].quantity_updated(new_item.quantityUnit)
+        else:
             self.items.append(new_item)
         self.__update_cart_money()
 
     def remove_item(self, new_item: OrderLineItem):
+        my_item_id = self.__item_id(new_item.id)
+        if my_item_id is None:
+            return None
         self.updatedDate = datetime.now(timezone.utc)
-        item_was_removed = False
-        for item in self.items:
-            if item.id == new_item.id:
-                self.items.remove(item)
-                item_was_removed = True
-                break
-        if item_was_removed:
-            self.__update_cart_money()
+        del self.items[my_item_id]
+        self.__update_cart_money()
 
     def __update_cart_money(self):
         if (self.items is None) or len(self.items) == 0:
@@ -219,8 +223,8 @@ class Cart(BaseModel):
                                totalMoney=total_moneys)
 
 
-def new_cart(location_nr: str, table_nr: int) -> Cart:
+def new_cart(location_id: str, table_nr: int) -> Cart:
     return Cart(id=str(ObjectId()),
-                locationId=location_nr,
+                locationId=location_id,
                 tableNr=table_nr,
                 metaData=CartMetadata())

@@ -11,7 +11,8 @@ class Catalog(BaseModel):
     name: str = Field(title='Name', description='name of the catalog')
     userId: str = Field(title='UserId', description='The userId of the merchant who owns it', )
     presentAtAllLocations: bool = Field(True, title="Present at all locations",
-                                        description='Boolean flag that indicates if this catalog is present at all merchant locations')
+                                        description='Boolean flag that indicates if this catalog is present at all '
+                                                    'merchant locations')
     allowedLocations: Optional[List[str]] = Field(None, title='Allowed locations',
                                                   description='Ids of locations where this catalog is allowed')
 
@@ -28,3 +29,13 @@ class Catalog(BaseModel):
                 "allowedLocations": ["789", "101112", "456789"]
             }
         }
+
+    def allowed_in_location(self, location_id: str) -> bool:
+        if self.presentAtAllLocations is True:
+            return True
+        if self.allowedLocations is None:
+            return False
+        for _id in self.allowedLocations:
+            if _id == location_id:
+                return True
+        return False

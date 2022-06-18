@@ -19,10 +19,12 @@ class Order(BaseModel):
     participants: Optional[List[Participant]] = None
     paymentIds: List[str] = []
 
-    def change_state(self, log: OrderStateLog):
-        if self.state != log.state:
-            self.state = log.state
-            self.stateChangeLog.append(log)
+    def change_state(self, new_state: OrderState):
+        if self.state == new_state:
+            return None
+        self.state = new_state
+        log = OrderStateLog(state=new_state)
+        self.stateChangeLog.append(log)
 
     def add_payment_id(self, payment_id: str):
         if payment_id not in self.paymentIds:

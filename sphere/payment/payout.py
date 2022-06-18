@@ -48,3 +48,10 @@ class Payout(BaseModel):
                 ],
             }
         }
+
+    def change_state(self, new_state: PayoutState):
+        if self.state == new_state:
+            return None
+        self.state = new_state
+        log = PayoutStateLog(state=new_state)
+        self.stateChangeLog.append(log)
