@@ -19,8 +19,6 @@ from sphere.item.order_quantity_unit import OrderQuantityUnit
 
 class OrderLineItem(BaseModel):
     id: str = Field(alias="_id")
-    # name: str = Field(lt=512, title='Name', description='name of the product')
-    # TODO: use name field validator
     name: str = Field(title='Name', description='name of the product')
     quantityUnit: OrderQuantityUnit
     note: Optional[str] = None

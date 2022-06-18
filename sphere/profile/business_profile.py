@@ -40,11 +40,11 @@ class BusinessProfile(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "_id": "123",
-                "userId": "456",
+                "_id": "62ae3f2cd77070ad862b62f9",
+                "userId": "62ae2adee2e3a21a46d70468",
                 "webpage": "https://example.com",
                 "avatar": "https://example.com/logo.png",
-                "wiseRecipientId": 900,
+                "wiseRecipientId": None,
                 "state": "ACTIVE",
                 "stateChangeLog": [
                     {
