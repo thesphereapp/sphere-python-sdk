@@ -1,6 +1,6 @@
 import unittest
+from typing import Dict
 
-from dns.immutable import Dict
 from sphere.finance.currency import Currency
 
 from sphere.payment.payment import Payment

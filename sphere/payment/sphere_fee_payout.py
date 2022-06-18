@@ -1,9 +1,8 @@
 from decimal import Decimal
-from typing import List, Set, Optional
+from typing import List, Set
 
 from bson import ObjectId
 from pydantic import Field, BaseModel
-from sphere.finance.currency import Currency
 
 from sphere.finance.money import Money, money_sum, money_subtract
 from sphere.payment.payment_fee import Fee, total_fees

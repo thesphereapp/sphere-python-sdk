@@ -1,6 +1,5 @@
 import unittest
-
-from dns.immutable import Dict
+from typing import Dict
 
 from sphere.payment.payment import Payment
 

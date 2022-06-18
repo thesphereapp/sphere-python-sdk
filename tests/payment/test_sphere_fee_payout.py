@@ -1,10 +1,9 @@
 import unittest
 from decimal import Decimal
+from typing import Dict
 
-from dns.immutable import Dict
 from sphere.finance.currency import Currency
 
-from sphere.payment.payment import Payment
 from sphere.payment.payment_fee import Fee
 from sphere.payment.payout import Payout
 from sphere.payment.payout_state import PayoutState
