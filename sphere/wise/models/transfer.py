@@ -53,7 +53,7 @@ class Transfer(BaseModel):
 
     @pydantic.validator("customer_transaction_id")
     @classmethod
-    def customer_transaction_id(cls, value):
+    def customer_transaction_id_is_valid(cls, value):
         uuid_obj = UUID(value, version=4)
         if str(uuid_obj) == value:
             return value
