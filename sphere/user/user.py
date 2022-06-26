@@ -12,6 +12,7 @@ from sphere.user.user_state_log import UserStateLog
 
 class User(BaseModel):
     id: str = Field(alias="_id")
+    name: str
     email: str
     # TODO: add validator
     password: str
@@ -39,6 +40,7 @@ class User(BaseModel):
         schema_extra = {
             "example": {
                 "_id": "62ae2adee2e3a21a46d70468",
+                "name": "Little Bakehouse Llc",
                 "email": "example@gmail.com",
                 "password": "xxx",
                 "state": "ACTIVE",

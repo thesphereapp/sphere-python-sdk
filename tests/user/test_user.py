@@ -36,6 +36,7 @@ class UserTest(unittest.TestCase):
     def user_dict() -> Dict[str, any]:
         return {
             "_id": "62ae173adab723d7f0bdf42f",
+            "name": "Little Bakehouse Llc",
             "email": "example@gmail.com",
             "password": "xxx"
         }
