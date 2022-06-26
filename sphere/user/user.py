@@ -2,6 +2,7 @@ from typing import List
 
 import bson
 import pydantic
+import validators
 from bson import ObjectId
 from pydantic import Field, BaseModel
 
@@ -11,7 +12,6 @@ from sphere.user.user_state_log import UserStateLog
 
 class User(BaseModel):
     id: str = Field(alias="_id")
-    # TODO: add validator
     email: str
     # TODO: add validator
     password: str
@@ -24,6 +24,13 @@ class User(BaseModel):
         if bson.objectid.ObjectId.is_valid(value):
             return value
         raise ValueError("Invalid id format")
+
+    @pydantic.validator("email")
+    @classmethod
+    def email_is_valid(cls, value):
+        if validators.email(value):
+            return value
+        raise ValueError("Invalid email")
 
     class Config:
         allow_population_by_field_name = True
