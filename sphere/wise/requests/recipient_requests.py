@@ -1,122 +1,11 @@
 import pydantic
 from pydantic import BaseModel, Field
 from sphere.finance.currency import Currency
-from sphere.wise.models.account_type import AccountType
-from sphere.wise.models.legal_type import LegalType
-import string
-
-LETTERS = {ord(d): str(i) for i, d in enumerate(string.digits + string.ascii_uppercase)}
+from sphere.wise.models.account_details import EurAccountDetails, GbpAccountDetails, UsdAccountDetails
 
 
-def _number_iban(iban):
-    return (iban[4:] + iban[:4]).translate(LETTERS)
 
 
-def valid_iban(iban):
-    return int(_number_iban(iban)) % 97 == 1
-
-
-def generate_iban_check_digits(iban):
-    number_iban = _number_iban(iban[:2] + '00' + iban[4:])
-    return '{:0>2}'.format(98 - (int(number_iban) % 97))
-
-
-def is_valid_iban(value: str) -> bool:
-    if generate_iban_check_digits(value) == value[2:4] and valid_iban(value):
-        return True
-    return False
-
-
-class EurRecipientRequestDetails(BaseModel):
-    legal_type: LegalType = Field(alias="legalType")
-    iban: str = Field(alias="IBAN")
-
-    @pydantic.validator("iban")
-    @classmethod
-    def iban_is_valid(cls, value):
-        if is_valid_iban(value):
-            return value
-        raise ValueError("Invalid iban for eur recipient request")
-
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = False
-        schema_extra = {
-            "example":
-                {
-                    "legalType": "PRIVATE",
-                    "IBAN": "DE89370400440532013000"
-                }
-        }
-
-
-class GbpRecipientRequestDetails(BaseModel):
-    legal_type: LegalType = Field(alias="legalType")
-    # TODO: add sort code valdiator
-    sort_code: str = Field(alias="sortCode")
-    # TODO: add account nr validation
-    account_number: str = Field(alias="accountNumber")
-
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = False
-        schema_extra = {
-            "example":
-                {
-                    "legalType": "PRIVATE",
-                    "sortCode": "40-30-20",
-                    "accountNumber": "12345678"
-                }
-        }
-
-
-class Address(BaseModel):
-    country: str = Field(alias="country")
-    city: str = Field(alias="city")
-    post_code: str = Field(alias="postCode")
-    first_line: str = Field(alias="firstLine")
-
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = False
-        schema_extra = {
-            "example":
-                {
-                    "country": "GB",
-                    "city": "London",
-                    "postCode": "10025",
-                    "firstLine": "50 Branson Ave"
-                }
-        }
-
-
-class UsdRecipientRequestDetails(BaseModel):
-    legal_type: LegalType = Field(alias="legalType")
-    # TODO: add validation
-    abartn: str = Field(alias="abartn")
-    # TODO: add validation
-    account_number: str = Field(alias="accountNumber")
-    account_type: AccountType = Field(alias="accountType")
-    address: Address = Field(alias="address")
-
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = False
-        schema_extra = {
-            "example":
-                {
-                    "legalType": "PRIVATE",
-                    "abartn": "111000025",
-                    "accountNumber": "12345678",
-                    "accountType": "CHECKING",
-                    "address": {
-                        "country": "GB",
-                        "city": "London",
-                        "postCode": "10025",
-                        "firstLine": "50 Branson Ave"
-                    }
-                }
-        }
 
 
 class EurRecipientRequest(BaseModel):
@@ -124,7 +13,7 @@ class EurRecipientRequest(BaseModel):
     account_holder_name: str = Field(alias="accountHolderName")
     currency: Currency = Field(Currency.EUR, alias="currency")
     type: str = Field(alias="type")
-    details: EurRecipientRequestDetails = Field(alias="details")
+    details: EurAccountDetails = Field(alias="details")
 
     @pydantic.validator("currency")
     @classmethod
@@ -164,7 +53,7 @@ class GbpRecipientRequest(BaseModel):
     account_holder_name: str = Field(alias="accountHolderName")
     currency: Currency = Field(Currency.GBP, alias="currency")
     type: str = Field(alias="type")
-    details: GbpRecipientRequestDetails = Field(alias="details")
+    details: GbpAccountDetails = Field(alias="details")
 
     @pydantic.validator("currency")
     @classmethod
@@ -205,7 +94,7 @@ class UsdRecipientRequest(BaseModel):
     account_holder_name: str = Field(alias="accountHolderName")
     currency: Currency = Field(Currency.USD, alias="currency")
     type: str = Field(alias="type")
-    details: UsdRecipientRequestDetails = Field(alias="details")
+    details: UsdAccountDetails = Field(alias="details")
 
     @pydantic.validator("currency")
     @classmethod

@@ -1,10 +1,11 @@
-from typing import Optional, List
-
+from typing import List
+import validators
 import bson
 import pydantic
 from bson import ObjectId
 from pydantic import Field, BaseModel
 
+from sphere.profile.business_profile_payout_details import BusinessProfilePayoutDetails
 from sphere.profile.profile_state import ProfileState
 from sphere.profile.profile_state_log import ProfileStateLog
 
@@ -12,11 +13,10 @@ from sphere.profile.profile_state_log import ProfileStateLog
 class BusinessProfile(BaseModel):
     id: str = Field(alias="_id")
     userId: str
-    # TODO: add validator
     webpage: str
-    # TODO: add validator
     avatar: str
-    wiseRecipientId: Optional[int] = None
+    payout_details: BusinessProfilePayoutDetails = Field(alias="payoutDetails")
+
     state: ProfileState = ProfileState.ACTIVE
     stateChangeLog: List[ProfileStateLog] = [ProfileStateLog()]
 
@@ -34,6 +34,20 @@ class BusinessProfile(BaseModel):
             return value
         raise ValueError("Invalid userId format")
 
+    @pydantic.validator("webpage")
+    @classmethod
+    def webpage_is_valid(cls, value):
+        if validators.url(value):
+            return value
+        raise ValueError("Invalid webpage url")
+
+    @pydantic.validator("avatar")
+    @classmethod
+    def avatar_is_valid(cls, value):
+        if validators.url(value):
+            return value
+        raise ValueError("Invalid avatar url")
+
     class Config:
         allow_population_by_field_name = True
         arbitrary_types_allowed = False
@@ -44,7 +58,15 @@ class BusinessProfile(BaseModel):
                 "userId": "62ae2adee2e3a21a46d70468",
                 "webpage": "https://example.com",
                 "avatar": "https://example.com/logo.png",
-                "wiseRecipientId": None,
+                "payoutDetails": {
+                    "accountDetails": {
+                        "legalType": "PRIVATE",
+                        "sortCode": "40-30-20",
+                        "accountNumber": "12345678"
+                    },
+                    "currency": "EUR",
+                    "wiseRecipientId": 5,
+                },
                 "state": "ACTIVE",
                 "stateChangeLog": [
                     {

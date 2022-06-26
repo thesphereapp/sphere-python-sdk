@@ -14,7 +14,7 @@ class BusinessProfileTest(unittest.TestCase):
         resp = BusinessProfile(**my_dict)
         # then
         self.assertEqual("62ae1724378ae6f44d92aa2c", resp.userId)
-        self.assertTrue(resp.wiseRecipientId is None)
+        self.assertEqual(5, resp.payout_details.wise_recipient_id)
         self.assertEqual("ACTIVE", resp.state.name)
         self.assertEqual(1, len(resp.stateChangeLog))
 
@@ -39,5 +39,14 @@ class BusinessProfileTest(unittest.TestCase):
             "_id": "62ae171da9ef162ddd0d5119",
             "userId": "62ae1724378ae6f44d92aa2c",
             "webpage": "https://example.com",
-            "avatar": "https://example.com/logo.png"
+            "avatar": "https://example.com/logo.png",
+            "payoutDetails": {
+                "accountDetails": {
+                    "legalType": "PRIVATE",
+                    "sortCode": "40-30-20",
+                    "accountNumber": "12345678"
+                },
+                "currency": "EUR",
+                "wiseRecipientId": 5,
+            },
         }
