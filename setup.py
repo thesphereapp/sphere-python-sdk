@@ -12,7 +12,7 @@ def get_packages():
 
 setup(
     name='sphere-python-sdk',
-    version='0.5.2',
+    version='0.5.3',
     author='Sphere developers',
     author_email='hello@thesphereapp.com',
     description='Sharing sphere functionality with the world',
@@ -24,6 +24,7 @@ setup(
         'pydantic',
         'python-dateutil',
         'pymongo',
-        'setuptools'
+        'setuptools',
+        'validators'
     ],
 )
