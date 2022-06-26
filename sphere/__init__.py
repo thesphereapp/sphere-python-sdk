@@ -7,5 +7,6 @@ __all__ = [
     'order',
     'payment',
     'profile',
-    'user'
+    'user',
+    'wise'
 ]
