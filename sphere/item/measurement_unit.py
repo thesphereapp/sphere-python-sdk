@@ -1,7 +1,7 @@
 import enum
 
 
-class MeasurementUnit(enum.Enum):
+class MeasurementUnit(str, enum.Enum):
     KILOGRAM = "KILOGRAM"
     METER = "METER"
     AMOUNT = "AMOUNT"
