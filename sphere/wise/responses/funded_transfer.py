@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import Field, BaseModel
 
 
-class FundedTransferStatus(enum.Enum):
+class FundedTransferStatus(str, enum.Enum):
     COMPLETED = "COMPLETED"
     REJECTED = "REJECTED"
 

@@ -1,7 +1,7 @@
 import enum
 
 
-class TransferPurpose(enum.Enum):
+class TransferPurpose(str, enum.Enum):
     PURCHASE_PROPERTY = "verification.transfers.purpose.purchase.property"
     PAY_BILLS = "verification.transfers.purpose.pay.bills"
     PAY_MORTGAGE = "verification.transfers.purpose.mortgage"
@@ -11,7 +11,7 @@ class TransferPurpose(enum.Enum):
     OTHER = "verification.transfers.purpose.other"
 
 
-class TransferPurposeSubTransferPurpose(enum.Enum):
+class TransferPurposeSubTransferPurpose(str, enum.Enum):
     INTERPRETATION_SERVICE = "verification.sub.transfers.purpose.pay.interpretation.service"
     TRANSLATION_SERVICE = "verification.sub.transfers.purpose.pay.translation.service"
     HUMAN_RESOURCE_SERVICE = "verification.sub.transfers.purpose.pay.human.resource.service"

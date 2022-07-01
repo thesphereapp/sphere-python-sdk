@@ -1,7 +1,7 @@
 import enum
 
 
-class TransferPurposeSubTransferPurpose(enum.Enum):
+class TransferPurposeSubTransferPurpose(str, enum.Enum):
     INTERPRETATION_SERVICE = "INTERPRETATION_SERVICE"
     TRANSLATION_SERVICE = "TRANSLATION_SERVICE"
     HUMAN_RESOURCE_SERVICE = "HUMAN_RESOURCE_SERVICE"
@@ -18,7 +18,7 @@ class TransferPurposeSubTransferPurpose(enum.Enum):
     EXHIBITION_BOOTH_SERVICE = "EXHIBITION_BOOTH_SERVICE"
 
 
-class SourceOfFunds(enum.Enum):
+class SourceOfFunds(str, enum.Enum):
     SALARY = "verification.source.of.funds.salary"
     INVESTMENTS = "verification.source.of.funds.investment"
     INHERITANCE = "verification.source.of.funds.inheritance"

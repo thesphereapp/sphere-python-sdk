@@ -1,7 +1,7 @@
 import enum
 
 
-class OrderState(enum.Enum):
+class OrderState(str, enum.Enum):
     NEW = "NEW"
     PAYMENT_IN_PROGRESS = "PAYMENT_IN_PROGRESS"
     PAYMENT_COMPLETED = "PAYMENT_COMPLETED"

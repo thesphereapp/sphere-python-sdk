@@ -1,6 +1,6 @@
 import enum
 
 
-class LegalType(enum.Enum):
+class LegalType(str, enum.Enum):
     PRIVATE = "PRIVATE"
     BUSINESS = "BUSINESS"
